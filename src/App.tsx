@@ -1,11 +1,11 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import { Home } from './components/Home';
-import { Login } from './components/Login';
-import { Signup } from './components/Signup';
-import { Topbar } from './components/Topbar';
+import Home from './components/Home';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import Topbar from './components/Topbar';
 import { AuthProvider } from './contexts/AuthContext';
 
-const App = () => {
+const App = () => (
   <Router>
     <AuthProvider>
       <Topbar />
@@ -17,7 +17,7 @@ const App = () => {
         </Routes>
       </main>
     </AuthProvider>
-  </Router>;
-};
+  </Router>
+);
 
 export default App;
