@@ -1,8 +1,10 @@
 import { type ChangeEvent, useEffect, useState } from 'react';
 import { FaAngleDown, FaAngleUp, FaArrowRotateRight } from 'react-icons/fa6';
+import { useNavigate } from 'react-router-dom';
 import styles from '../Home.module.css';
 // import { useAuth } from '../contexts/AuthContext';
 import { encodeQueryParams, usePosts } from '../contexts/PostContext';
+import InternCard from './InternCard';
 
 const Home = () => {
   const DOMAINS: string[] = [
@@ -19,7 +21,7 @@ const Home = () => {
 
   const DEV: string[] = ['FRONT', 'APP', 'BACKEND', 'DATA', 'OTHERS'];
 
-  const { fetchPosts } = usePosts();
+  const { posts, isLoading, fetchPosts } = usePosts();
   const [panelExpanded, setPanelExpanded] = useState(false);
   const [roles, setRoles] = useState<string[]>([]);
 
@@ -39,6 +41,13 @@ const Home = () => {
   const [orderStatus, setOrderStatus] = useState<number>(0);
 
   const [query, setQuery] = useState<string>('');
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLoginRequired = () => {
+    setIsModalOpen(true);
+  };
 
   // make fetch api call
   useEffect(() => {
@@ -466,6 +475,42 @@ const Home = () => {
           <FaArrowRotateRight /> <span>초기화</span>
         </li>
       </ul>
+
+      <section className={styles.postList}>
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          posts?.map((post) => (
+            <InternCard
+              key={post.id}
+              post={post}
+              onLoginRequired={handleLoginRequired}
+            />
+          ))
+        )}
+      </section>
+
+      {isModalOpen && (
+        <div
+          className={styles.modalBackdrop}
+          onClick={() => setIsModalOpen(false)}
+        >
+          <div
+            className={styles.modalContent}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p>로그인이 필요한 기능입니다.</p>
+            <div className={styles.modalActions}>
+              <button type="button" onClick={() => setIsModalOpen(false)}>
+                뒤로가기
+              </button>
+              <button type="button" onClick={() => navigate('/login')}>
+                로그인하기
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 };

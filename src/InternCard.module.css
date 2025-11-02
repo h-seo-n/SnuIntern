@@ -1,0 +1,85 @@
+.card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  background-color: #e0e0e0;
+}
+
+.titleGroup {
+  flex: 1;
+}
+
+.companyName {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.positionTitle {
+  font-size: 14px;
+  color: #555;
+  margin: 4px 0 0;
+}
+
+.bookmarkBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  font-size: 20px;
+}
+
+.body {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background-color: #f0f0f0;
+  color: #333;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.dDay {
+  font-size: 14px;
+  font-weight: 500;
+  color: #e53e3e;
+}
+
+.deadline {
+  font-size: 14px;
+  font-weight: 500;
+  color: #888;
+}
