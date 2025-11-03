@@ -109,9 +109,9 @@ export const PostProvider = ({ children }: PostProviderProps) => {
       const url = `/api/post?${query}`;
       const response = await apiClient.get<{
         posts: ApiPost[]; // posts stored in array
-        paginator: { lastpage: number };
+        paginator: { lastPage: number };
       }>(url);
-      setPaginator(response.data.paginator.lastpage);
+      setPaginator(response.data.paginator.lastPage);
       const apiPosts = response.data.posts;
       const formattedPosts: Post[] = apiPosts.map((p: ApiPost) => ({
         id: p.id,

@@ -79,7 +79,7 @@ const Home = () => {
         isActive: isActive,
         domains: domains.length === DOMAINS.length ? null : domains, // if null -> all domains
         order: order,
-        page: currentPage,
+        page: currentPage - 1,
       },
     });
     setQuery(q);
@@ -95,6 +95,7 @@ const Home = () => {
         return p.filter((v) => v !== value);
       });
     }
+    setCurrentPage(1);
   };
   // domain check
   const handleDomainCheck = (e: ChangeEvent<HTMLInputElement>) => {
@@ -116,13 +117,13 @@ const Home = () => {
   const handleReset = () => {
     // reset 모집 상태 selection and other filters
     setIsActive(false);
-    setRoles([]);
     setDomain(DOMAINS);
     setOrder(0);
 
     setRecStatus('all');
     setDmStatus(DOMAINS);
     setOrderStatus(0);
+    setCurrentPage(1);
   };
 
   const renderPageNumbers = () => {
@@ -188,7 +189,7 @@ const Home = () => {
                 <label htmlFor="check-dev-front">프론트엔드 개발</label>
                 <input
                   type="checkbox"
-                  id=""
+                  id="check-dev-front"
                   name="check-dev-front"
                   value="FRONT"
                   onChange={handleRoleCheck}
@@ -324,6 +325,7 @@ const Home = () => {
                         onClick={() => {
                           setIsActive(recStatus === 'recruiting');
                           setOpenDropdown(null);
+                          setCurrentPage(1);
                         }}
                       >
                         적용
@@ -473,6 +475,7 @@ const Home = () => {
                         onClick={() => {
                           setDomain(dmStatus);
                           setOpenDropdown(null);
+                          setCurrentPage(1);
                         }}
                       >
                         적용
@@ -531,6 +534,7 @@ const Home = () => {
                         onClick={() => {
                           setOrder(orderStatus);
                           setOpenDropdown(null);
+                          setCurrentPage(1);
                         }}
                       >
                         적용

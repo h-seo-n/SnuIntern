@@ -1,24 +1,30 @@
+/* --- Main Layout --- */
 .filterContainer {
   position: sticky;
   top: 0;
   z-index: 100;
-  background-color: white; /* Ensure background is white to cover content when sticky */
-  padding: 16px 30px 0px 30px; /* Add padding to match main content */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better visual separation */
+  background-color: white;
+  padding: 16px 30px 0px 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .main {
   display: flex;
   flex-direction: column;
-  padding: 0 30px 16px 30px; /* Adjust padding for main content */
+  padding: 0 30px 16px 30px;
 }
 
 .contentWrapper {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  width: 100%;
+  /* Removed max-width for 3-column layout */
+  margin: 0 auto;
+  width: 1000px;
 }
 
+/* --- Filter Panel (Accordion) --- */
 .accordion {
   background-color: #eee;
   color: #444;
@@ -46,6 +52,7 @@
   overflow: hidden;
 }
 
+/* --- Filter Chips --- */
 ul.chips {
   margin: 0;
   list-style: none;
@@ -55,43 +62,47 @@ ul.chips {
   padding: 0;
 }
 
+/* --- Post Grid (3xN Layout) --- */
 .postList {
   display: grid;
+  /* Defines the 3-column layout */
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px; /* Gap between cards */
+  gap: 20px;
 }
 
+/* --- Pagination --- */
 .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 5px; /* Smaller gap between page buttons */
+  gap: 5px;
   margin-top: 20px;
 }
 
 .pagination button {
-  padding: 6px 10px; /* Smaller padding for buttons */
-  border: 1px solid #ccc;
+  padding: 6px 10px;
+  border: 1px solid #dee2e6;
   border-radius: 4px;
-  background-color: #f0f0f0;
+  background-color: #ffffff;
+  color: #212529;
   cursor: pointer;
   transition: background-color 0.2s, border-color 0.2s, color 0.2s;
   font-size: 14px;
-  min-width: 32px; /* Ensure consistent button width */
+  min-width: 32px;
   text-align: center;
 }
 
 .pagination button:hover:not(:disabled) {
-  background-color: #e0e0e0;
-  border-color: #a0a0a0;
+  background-color: #f8f9fa;
+  border-color: #adb5bd;
 }
 
 .pagination button:disabled {
   cursor: not-allowed;
   opacity: 0.6;
-  background-color: #f8f8f8;
-  border-color: #e0e0e0;
-  color: #a0a0a0;
+  background-color: #f8f9fa;
+  border-color: #e9ecef;
+  color: #adb5bd;
 }
 
 .pagination button.activePage {
@@ -100,7 +111,7 @@ ul.chips {
   border-color: #007bff;
 }
 
-/* MODALS */
+/* --- Modal Styles (Dropdown) --- */
 .modalTrigger {
   position: relative;
 }
@@ -136,8 +147,6 @@ ul.chips {
   cursor: pointer;
 }
 
-/* If your JSX uses a plain `className="row"`, define that globally in `src/style.css`.
-   Prefer using `styles.row` (CSS modules) instead; see `Home.tsx` for where .row is used. */
 .modalActions {
   display: flex;
   justify-content: flex-end;
@@ -176,7 +185,6 @@ ul.chips {
   transition: all 0.2s;
 }
 .radioVisual::before {
-  /* inner dot */
   content: "";
   width: 10px;
   height: 10px;
@@ -192,11 +200,7 @@ ul.chips {
   transform: scale(1);
 }
 
-/* input[type="checkbox"] {
-
-} */
-
-/* Login Confirmation Modal Styles */
+/* --- Modal Styles (Login Confirmation) --- */
 .modalBackdrop {
   position: fixed;
   top: 0;
@@ -239,12 +243,12 @@ ul.chips {
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
-  color: #212529; /* Dark text color for better visibility */
+  color: #212529;
   transition: background-color 0.2s;
 }
 
 .modalActions button:first-child:hover {
-  background-color: #e2e6ea; /* Light grey on hover */
+  background-color: #e2e6ea;
 }
 
 .modalActions button:last-child {

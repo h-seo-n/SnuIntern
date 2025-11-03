@@ -13,6 +13,18 @@ const InternCard = ({ post, onLoginRequired }: InternCardProps) => {
   const { user } = useAuth();
   const { toggleBookmark } = usePosts();
 
+  const DOMAIN_MAP: { [key: string]: string } = {
+    FINTECH: '핀테크',
+    HEALTHTECH: '헬스테크',
+    EDUCATION: '교육',
+    ECOMMERCE: '이커머스',
+    FOODTECH: '푸드테크',
+    MOBILITY: '모빌리티',
+    CONTENTS: '컨텐츠',
+    B2B: 'B2B',
+    OTHERS: '기타',
+  };
+
   const handleBookmarkClick = async () => {
     if (!user) {
       onLoginRequired();
@@ -51,8 +63,8 @@ const InternCard = ({ post, onLoginRequired }: InternCardProps) => {
         <div className={styles.logo} />
         <div className={styles.titleGroup}>
           <h4 className={styles.companyName}>{post.companyName}</h4>
-          <p className={styles.positionTitle}>{post.positionTitle}</p>
         </div>
+
         <button
           type="button"
           onClick={handleBookmarkClick}
@@ -66,9 +78,14 @@ const InternCard = ({ post, onLoginRequired }: InternCardProps) => {
           )}
         </button>
       </div>
+      <div>
+        <h3 className={styles.positionTitle}>{post.positionTitle}</h3>
+      </div>
       <div className={styles.body}>
-        <span className={styles.tag}>{post.domain}</span>
-        <span className={styles.tag}>{post.positionType}</span>
+        <span className={styles.tag}>
+          {DOMAIN_MAP[post.domain] || post.domain}
+        </span>
+        {/* <span className={styles.tag}>{post.positionType}</span> */}
       </div>
       <div className={styles.footer}>
         <span className={dDay === '마감' ? styles.deadline : styles.dDay}>
