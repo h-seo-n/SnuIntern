@@ -6,6 +6,8 @@
 .panelWrapper {
   flex-direction: column;
   align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
 }
 
 .contentWrapper {
@@ -19,7 +21,7 @@
 }
 
 .filterContainer {
-  flex: 0 0 220px; /* Do not grow, do not shrink, base width 220px */
+  flex: 0;
 }
 
 .postsArea {
@@ -41,6 +43,14 @@
   justify-content: space-between;
   font-size: 18px;
   font-weight: 700;
+}
+
+.filterContainer button {
+  padding: 16px 18px 16px 0px;
+}
+.accordion span {
+  min-width: 140px;
+  margin-right: 10px;
 }
 
 .active,
@@ -68,10 +78,16 @@ ul.chips {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
-  padding: 0 16px 16px 16px;
+  align-content: center;
 }
 
-/* --- Post List (flex, responsive) --- */
+.chip {
+  margin-right: 6px;
+  float: left;
+  padding: 4px;
+  justify-content: center;
+}
+
 .postList {
   display: flex;
   flex-wrap: wrap;
@@ -81,12 +97,10 @@ ul.chips {
 }
 
 .postList > * {
-  /* Default: 3 columns. The -20px accounts for gaps so cards fit nicely */
   flex: 1 1 calc(33.333% - 20px);
   max-width: calc(33.333% - 20px);
 }
 
-/* Medium screens: 2 columns */
 @media (max-width: 1000px) {
   .postList > * {
     flex: 1 1 calc(50% - 20px);
@@ -94,7 +108,6 @@ ul.chips {
   }
 }
 
-/* Small screens: 1 column */
 @media (max-width: 768px) {
   .contentWrapper {
     flex-direction: column;

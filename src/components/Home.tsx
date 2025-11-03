@@ -187,6 +187,7 @@ const Home = () => {
                       id="check-dev-total"
                       name="total"
                       value="total"
+                      checked={DEV.every((d) => roles.includes(d))}
                       onChange={handleRoleCheck}
                     ></input>
                   </div>
@@ -197,6 +198,7 @@ const Home = () => {
                       id="check-dev-front"
                       name="check-dev-front"
                       value="FRONT"
+                      checked={roles.includes('FRONT')}
                       onChange={handleRoleCheck}
                     ></input>
                   </div>
@@ -207,6 +209,7 @@ const Home = () => {
                       id="check-dev-backend"
                       name="backend"
                       value="BACKEND"
+                      checked={roles.includes('BACKEND')}
                       onChange={handleRoleCheck}
                     ></input>
                   </div>
@@ -217,6 +220,7 @@ const Home = () => {
                       id="check-dev-app"
                       name="app"
                       value="APP"
+                      checked={roles.includes('APP')}
                       onChange={handleRoleCheck}
                     ></input>
                   </div>
@@ -227,6 +231,7 @@ const Home = () => {
                       id="check-dev-others"
                       name="others"
                       value="OTHERS"
+                      checked={roles.includes('OTHERS')}
                       onChange={handleRoleCheck}
                     ></input>
                   </div>
@@ -241,6 +246,7 @@ const Home = () => {
                       id="project-total"
                       name="PLANNING"
                       value="PLANNING"
+                      checked={roles.includes('PLANNING')}
                       onChange={handleRoleCheck}
                     ></input>
                   </div>
@@ -255,6 +261,7 @@ const Home = () => {
                       id="design-total"
                       name="DESIGN"
                       value="DESIGN"
+                      checked={roles.includes('DESIGN')}
                       onChange={handleRoleCheck}
                     ></input>
                   </div>
@@ -268,6 +275,7 @@ const Home = () => {
                       id="marketing-total"
                       name="MARKETING"
                       value="MARKETING"
+                      checked={roles.includes('MARKETING')}
                       onChange={handleRoleCheck}
                     ></input>
                   </div>
