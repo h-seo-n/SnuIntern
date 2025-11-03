@@ -1,30 +1,33 @@
-/* --- Main Layout --- */
-.filterContainer {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background-color: white;
-  padding: 16px 30px 0px 30px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
 
 .main {
   display: flex;
   flex-direction: column;
-  padding: 0 30px 16px 30px;
+  padding: 16px 30px;
+}
+.panelWrapper {
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .contentWrapper {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 20px;
   width: 100%;
-  /* Removed max-width for 3-column layout */
   margin: 0 auto;
-  width: 1000px;
+  max-width: 1200px;
+  padding: 0 16px;
 }
 
-/* --- Filter Panel (Accordion) --- */
+.filterContainer {
+  flex: 0 0 220px; /* Do not grow, do not shrink, base width 220px */
+}
+
+.postsArea {
+  flex: 1; /* Take up remaining space */
+  min-width: 0; /* Prevent overflow */
+}
+
 .accordion {
   background-color: #eee;
   color: #444;
@@ -52,25 +55,61 @@
   overflow: hidden;
 }
 
-/* --- Filter Chips --- */
+.panel div {
+  margin-bottom: 6px;
+  font-size: 18px;
+}
+.panel section {
+  margin-top: 12px;
+}
+
 ul.chips {
-  margin: 0;
+  margin: 30px 0 50px;
   list-style: none;
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
-  padding: 0;
+  padding: 0 16px 16px 16px;
 }
 
-/* --- Post Grid (3xN Layout) --- */
+/* --- Post List (flex, responsive) --- */
 .postList {
-  display: grid;
-  /* Defines the 3-column layout */
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-wrap: wrap;
   gap: 20px;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
-/* --- Pagination --- */
+.postList > * {
+  /* Default: 3 columns. The -20px accounts for gaps so cards fit nicely */
+  flex: 1 1 calc(33.333% - 20px);
+  max-width: calc(33.333% - 20px);
+}
+
+/* Medium screens: 2 columns */
+@media (max-width: 1000px) {
+  .postList > * {
+    flex: 1 1 calc(50% - 20px);
+    max-width: calc(50% - 20px);
+  }
+}
+
+/* Small screens: 1 column */
+@media (max-width: 768px) {
+  .contentWrapper {
+    flex-direction: column;
+    padding: 0 12px;
+  }
+  .postList {
+    gap: 16px;
+  }
+  .postList > * {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+
 .pagination {
   display: flex;
   justify-content: center;
@@ -106,12 +145,11 @@ ul.chips {
 }
 
 .pagination button.activePage {
-  background-color: #007bff;
+  background-color: #555;
   color: white;
-  border-color: #007bff;
+  border-color: rgba(217, 217, 217, 1);
 }
 
-/* --- Modal Styles (Dropdown) --- */
 .modalTrigger {
   position: relative;
 }
@@ -200,6 +238,22 @@ ul.chips {
   transform: scale(1);
 }
 
+[type="checkbox"] {
+    appearance: none; /* 기본(네이티브) 모양을 제거 */
+    box-sizing: border-box;
+    background-clip: content-box;
+    width: 1.25em;
+    height: 1.25em;
+    border: 1px solid rgba(72, 76, 83, 1);
+    border-radius: 3px;
+    cursor: pointer;
+}
+[type="checkbox"]:checked {
+    border-color: rgba(72, 76, 83, 1);
+    background-color: rgba(72, 76, 83, 1);
+}
+
+
 /* --- Modal Styles (Login Confirmation) --- */
 .modalBackdrop {
   position: fixed;
@@ -235,28 +289,4 @@ ul.chips {
   justify-content: center;
 }
 
-.modalActions button {
-  padding: 10px 20px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  background-color: #f0f0f0;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  color: #212529;
-  transition: background-color 0.2s;
-}
 
-.modalActions button:first-child:hover {
-  background-color: #e2e6ea;
-}
-
-.modalActions button:last-child {
-  background-color: #007bff;
-  color: white;
-  border-color: #007bff;
-}
-
-.modalActions button:last-child:hover {
-  background-color: #0069d9;
-}

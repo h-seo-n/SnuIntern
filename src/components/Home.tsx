@@ -2,7 +2,6 @@ import { type ChangeEvent, useEffect, useState } from 'react';
 import { FaAngleDown, FaAngleUp, FaArrowRotateRight } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import styles from '../Home.module.css';
-// import { useAuth } from '../contexts/AuthContext';
 import { encodeQueryParams, usePosts } from '../contexts/PostContext';
 import InternCard from './InternCard';
 
@@ -84,11 +83,13 @@ const Home = () => {
     });
     setQuery(q);
   }, [roles, isActive, domains, order, currentPage]);
+
   // role check
   const handleRoleCheck = (e: ChangeEvent<HTMLInputElement>) => {
     const { checked, value } = e.currentTarget;
     if (value === 'total') {
-      setRoles((p) => [...DEV, ...p.filter((v) => !DEV.includes(v))]);
+      if (checked) setRoles((p) => [...DEV, ...p.filter((v) => !DEV.includes(v))]);
+      else setRoles((p) => [...p.filter((v) => !DEV.includes(v))]);
     } else {
       setRoles((p) => {
         if (checked) return [...p, value];
@@ -97,6 +98,7 @@ const Home = () => {
     }
     setCurrentPage(1);
   };
+
   // domain check
   const handleDomainCheck = (e: ChangeEvent<HTMLInputElement>) => {
     const { checked, value } = e.currentTarget;
@@ -157,123 +159,122 @@ const Home = () => {
 
   return (
     <>
-      <div className={styles.filterContainer}>
-        <button
-          className={
-            panelExpanded
-              ? `${styles.accordion} ${styles.active}`
-              : `${styles.accordion}`
-          }
-          onClick={() => {
-            setPanelExpanded((p) => !p);
-          }}
-        >
-          <span>직군 필터</span>
-          {panelExpanded ? <FaAngleUp /> : <FaAngleDown />}
-        </button>
-        {panelExpanded && (
-          <div className={styles.panel}>
-            <section className="col">
-              <h3>개발</h3>
-              <div className="row">
-                <label htmlFor="check-dev-total">전체</label>
-                <input
-                  type="checkbox"
-                  id="check-dev-total"
-                  name="total"
-                  value="total"
-                  onChange={handleRoleCheck}
-                ></input>
-              </div>
-              <div className="row">
-                <label htmlFor="check-dev-front">프론트엔드 개발</label>
-                <input
-                  type="checkbox"
-                  id="check-dev-front"
-                  name="check-dev-front"
-                  value="FRONT"
-                  onChange={handleRoleCheck}
-                ></input>
-              </div>
-              <div className="row">
-                <label htmlFor="check-dev-backend">서버⋅백엔드 개발</label>
-                <input
-                  type="checkbox"
-                  id="check-dev-backend"
-                  name="backend"
-                  value="BACKEND"
-                  onChange={handleRoleCheck}
-                ></input>
-              </div>
-              <div className="row">
-                <label htmlFor="check-dev-app">앱 개발</label>
-                <input
-                  type="checkbox"
-                  id="check-dev-app"
-                  name="app"
-                  value="APP"
-                  onChange={handleRoleCheck}
-                ></input>
-              </div>
-              <div className="row">
-                <label htmlFor="check-dev-others">기타 분야</label>
-                <input
-                  type="checkbox"
-                  id="check-dev-others"
-                  name="others"
-                  value="OTHERS"
-                  onChange={handleRoleCheck}
-                ></input>
-              </div>
-            </section>
-
-            <section>
-              <h3>기획</h3>
-              <div className="row">
-                <label htmlFor="project-total">전체</label>
-                <input
-                  type="checkbox"
-                  id="project-total"
-                  name="PLANNING"
-                  value="PLANNING"
-                  onChange={handleRoleCheck}
-                ></input>
-              </div>
-            </section>
-
-            <section>
-              <h3>디자인</h3>
-              <div className="row">
-                <label htmlFor="design-total">전체</label>
-                <input
-                  type="checkbox"
-                  id="design-total"
-                  name="DESIGN"
-                  value="DESIGN"
-                  onChange={handleRoleCheck}
-                ></input>
-              </div>
-            </section>
-            <section>
-              <h3>마케팅</h3>
-              <div className="row">
-                <label htmlFor="marketing-total">전체</label>
-                <input
-                  type="checkbox"
-                  id="marketing-total"
-                  name="MARKETING"
-                  value="MARKETING"
-                  onChange={handleRoleCheck}
-                ></input>
-              </div>
-            </section>
-          </div>
-        )}
-      </div>
-
       <main className={styles.main}>
-        <div className={styles.contentArea}>
-          <div className={styles.contentWrapper}>
+        <div className={styles.contentWrapper}>
+          <div className={styles.filterContainer}>
+            <button
+              className={
+                panelExpanded
+                  ? `${styles.accordion} ${styles.active}`
+                  : `${styles.accordion}`
+              }
+              onClick={() => {
+                setPanelExpanded((p) => !p);
+              }}
+            >
+              <span>직군 필터</span>
+              {panelExpanded ? <FaAngleUp /> : <FaAngleDown />}
+            </button>
+            {panelExpanded && (
+              <div className={styles.panel}>
+                <section className="col">
+                  <h3>개발</h3>
+                  <div className="row">
+                    <label htmlFor="check-dev-total">전체</label>
+                    <input
+                      type="checkbox"
+                      id="check-dev-total"
+                      name="total"
+                      value="total"
+                      onChange={handleRoleCheck}
+                    ></input>
+                  </div>
+                  <div className="row">
+                    <label htmlFor="check-dev-front">프론트엔드 개발</label>
+                    <input
+                      type="checkbox"
+                      id="check-dev-front"
+                      name="check-dev-front"
+                      value="FRONT"
+                      onChange={handleRoleCheck}
+                    ></input>
+                  </div>
+                  <div className="row">
+                    <label htmlFor="check-dev-backend">서버⋅백엔드 개발</label>
+                    <input
+                      type="checkbox"
+                      id="check-dev-backend"
+                      name="backend"
+                      value="BACKEND"
+                      onChange={handleRoleCheck}
+                    ></input>
+                  </div>
+                  <div className="row">
+                    <label htmlFor="check-dev-app">앱 개발</label>
+                    <input
+                      type="checkbox"
+                      id="check-dev-app"
+                      name="app"
+                      value="APP"
+                      onChange={handleRoleCheck}
+                    ></input>
+                  </div>
+                  <div className="row">
+                    <label htmlFor="check-dev-others">기타 분야</label>
+                    <input
+                      type="checkbox"
+                      id="check-dev-others"
+                      name="others"
+                      value="OTHERS"
+                      onChange={handleRoleCheck}
+                    ></input>
+                  </div>
+                </section>
+
+                <section>
+                  <h3>기획</h3>
+                  <div className="row">
+                    <label htmlFor="project-total">전체</label>
+                    <input
+                      type="checkbox"
+                      id="project-total"
+                      name="PLANNING"
+                      value="PLANNING"
+                      onChange={handleRoleCheck}
+                    ></input>
+                  </div>
+                </section>
+
+                <section>
+                  <h3>디자인</h3>
+                  <div className="row">
+                    <label htmlFor="design-total">전체</label>
+                    <input
+                      type="checkbox"
+                      id="design-total"
+                      name="DESIGN"
+                      value="DESIGN"
+                      onChange={handleRoleCheck}
+                    ></input>
+                  </div>
+                </section>
+                <section>
+                  <h3>마케팅</h3>
+                  <div className="row">
+                    <label htmlFor="marketing-total">전체</label>
+                    <input
+                      type="checkbox"
+                      id="marketing-total"
+                      name="MARKETING"
+                      value="MARKETING"
+                      onChange={handleRoleCheck}
+                    ></input>
+                  </div>
+                </section>
+              </div>
+            )}
+          </div>
+          <div className={styles.postsArea}>
             <ul className={styles.chips}>
               {/* 모집 상태 옵션 버튼 */}
               <li
@@ -465,7 +466,7 @@ const Home = () => {
                     </div>
                     <div className={styles.modalActions}>
                       <button
-                        className={`{${styles.btn} ${styles.btnReset}}`}
+                        className={`${styles.btn} ${styles.btnReset}`}
                         onClick={() => setDmStatus(DOMAINS)}
                       >
                         초기화
@@ -530,7 +531,7 @@ const Home = () => {
                         초기화
                       </button>
                       <button
-                        className={`${styles.btnApply}`}
+                        className={`${styles.btn} ${styles.btnApply}`}
                         onClick={() => {
                           setOrder(orderStatus);
                           setOpenDropdown(null);
@@ -565,6 +566,7 @@ const Home = () => {
 
             <div className={styles.pagination}>
               <button
+                className={`${styles.btn}`}
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
               >
@@ -572,6 +574,7 @@ const Home = () => {
               </button>
               {renderPageNumbers()}
               <button
+                className={`${styles.btn}`}
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
               >
@@ -591,10 +594,10 @@ const Home = () => {
             >
               <p>로그인이 필요한 기능입니다.</p>
               <div className={styles.modalActions}>
-                <button type="button" onClick={() => setIsModalOpen(false)}>
+                <button type="button" className={`${styles.btn} ${styles.btnReset}`} onClick={() => setIsModalOpen(false)}>
                   뒤로가기
                 </button>
-                <button type="button" onClick={() => navigate('/login')}>
+                <button type="button" className={`${styles.btn} ${styles.btnApply}`} onClick={() => navigate('/login')}>
                   로그인하기
                 </button>
               </div>
