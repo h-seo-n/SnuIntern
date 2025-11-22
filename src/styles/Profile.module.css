@@ -1,0 +1,128 @@
+#main {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  min-width: 50px;
+}
+
+.createProfileButton {
+  background-color: #f0f0f0;
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+h2.title {
+  font-weight: 700;
+  font-size: 32px;
+}
+
+h3.title {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+h4.title {
+    color: rgba(72, 76, 83, 1);
+    font-weight: 700;
+    font-size: 16px;
+}
+
+span.title {
+    color: rgba(72, 76, 83, 1);
+    font-size: 14px;
+}
+
+.redText {
+    color: red;
+}
+
+.hide {
+    display: none;
+}
+
+.fileInput {
+    border: 1px solid #555;
+    color: #555;
+    border-radius: 4px;
+}
+.stackChips {
+  list-style: none;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 0px 16px 16px 16px;
+  margin: 0px;
+}
+
+.stackChip {
+  margin-right: 6px;
+  font-size: 13px;
+  color: rgba(72, 76, 83, 1);
+  float:left;
+  border: 1px, solid, rgba(232, 235, 239, 1);
+  border-radius: 4px;
+  padding: 6px 8px 6px 8px;
+}
+
+.link {
+    background-color: rgba(119, 127, 139, 1);
+    padding: 6px 10px 6px 10px;
+    border-radius: 4px;
+}
+
+.smallText {
+    color: rgb(95, 99, 107);
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.bodyText {
+    color: rgba(56, 59, 65, 1);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.profilePromptContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 4rem 0;
+}
+
+.promptTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 0 1rem 0;
+}
+
+.promptSubtitle {
+  font-size: 1rem;
+  color: #555;
+  margin: 0 0 2rem 0;
+}
+
+.promptButton {
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  min-width: 300px;
+}
+
+.promptButton:hover {
+  background-color: #000000;
+}
+.createProfileButton:hover {
+  background-color: #e0e0e0;
+}

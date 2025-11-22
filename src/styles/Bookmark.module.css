@@ -1,0 +1,56 @@
+.container {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+}
+
+.card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  height: 100px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.companyName {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.positionTitle {
+  font-size: 1.25rem;
+  margin: 0 0 1.5rem 0;
+}
+
+.footer {
+  text-align: right;
+  margin-top: -1rem;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.deadline {
+  color: red;
+  font-weight: bold;
+}
+
+.recruiting {
+  color: royalblue;
+  font-weight: bold;
+}
