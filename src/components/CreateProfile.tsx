@@ -33,6 +33,24 @@ const CreateProfile = () => {
   );
   const [positionsOk, setPositionsOk] = useState(true);
 
+  const [stacks, setStacks] = useState<string[]>(
+    profile?.stacks?.length ? profile.stacks : []
+  );
+  const [stackInput, setStackInput] = useState('');
+  const [stacksOk, setStacksOk] = useState(true);
+
+  const [slogan, setSlogan] = useState(profile?.slogan ?? '');
+  const [sloganOk, setSloganOk] = useState(true);
+
+  const [explanation, setExplanation] = useState(profile?.explanation ?? '');
+  const [explanationOk, setExplanationOk] = useState(true);
+
+  type LinkItem = { description: string; link: string };
+  const [links, setLinks] = useState<LinkItem[]>(
+    profile?.links?.length ? profile.links : [{ description: '', link: '' }]
+  );
+  const [linksOk, setLinksOk] = useState(true);
+
   /**
    * when the index'th major input is edited
    * @param index
@@ -133,6 +151,7 @@ const CreateProfile = () => {
     checkCV();
   }, [checkCV]);
 
+  /** POSITIONS */
   const handlePositionChange = (index: number, value: string) => {
     // 100자 제한
     if (value.length > 100) value = value.slice(0, 100);
@@ -158,9 +177,108 @@ const CreateProfile = () => {
     checkPositionsOk();
   }, [checkPositionsOk]);
 
+  /** STACK */
+  const addStack = (raw: string) => {
+    const tag = raw.trim();
+    if (!tag) return;
+
+    if (tag.length > 30) {
+      setStacksOk(false);
+      return;
+    }
+
+    if (stacks.includes(tag)) {
+      setStacksOk(false);
+      return;
+    }
+
+    setStacks((prev) => [...prev, tag]);
+    setStackInput('');
+    setStacksOk(true);
+  };
+
+  const removeStack = (tag: string) => {
+    setStacks((prev) => prev.filter((t) => t !== tag));
+  };
+
+  const onStackKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      addStack(stackInput);
+    }
+  };
+
+  useEffect(() => {
+    // validate whether stack exists
+    const ok =
+      stacks.length === 0 ||
+      (new Set(stacks).size === stacks.length &&
+        stacks.every((t) => t.length <= 30));
+    setStacksOk(ok);
+  }, [stacks]);
+
+  /**
+   * SLOGAN
+   */
+  useEffect(() => {
+    setSloganOk(slogan.length <= 100);
+  }, [slogan]);
+
+  /**
+   *  INTRO
+   */
+  useEffect(() => {
+    setExplanationOk(explanation.length <= 5000);
+  }, [explanation]);
+
+  /**
+   * LINK
+   */
+  const handleLinkChange = (
+    index: number,
+    field: keyof LinkItem,
+    value: string
+  ) => {
+    if (field === 'description' && value.length > 100) {
+      value = value.slice(0, 100);
+    }
+    setLinks((prev) =>
+      prev.map((item, i) => (i === index ? { ...item, [field]: value } : item))
+    );
+  };
+
+  const addLink = () => {
+    if (links.length >= 5) return;
+    setLinks((prev) => [...prev, { description: '', link: '' }]);
+  };
+
+  const deleteLink = (index: number) => {
+    setLinks((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const checkLinksOk = useCallback(() => {
+    const filled = links.filter((l) => l.description.trim() || l.link.trim());
+
+    const descOk = filled.every((l) => l.description.trim().length <= 100);
+
+    const httpsOk = filled.every((l) =>
+      l.link.trim() === '' ? false : l.link.trim().startsWith('https://')
+    );
+
+    const linkStrings = filled.map((l) => l.link.trim());
+    const noDup = new Set(linkStrings).size === linkStrings.length;
+
+    // ok even if nothing
+    setLinksOk(filled.length === 0 || (descOk && httpsOk && noDup));
+  }, [links]);
+
+  useEffect(() => {
+    checkLinksOk();
+  }, [checkLinksOk]);
+
   const checkOptionalOk = useCallback(() => {
-    return positionsOk;
-  }, [positionsOk]);
+    return positionsOk && stacksOk && sloganOk && explanationOk && linksOk;
+  }, [positionsOk, stacksOk, sloganOk, explanationOk, linksOk]);
 
   /**
    * consider whether required inputs are not empty & are valid
@@ -205,7 +323,14 @@ const CreateProfile = () => {
       const enrollYear: number = parseInt(classNumber) + 2000;
       const department: string = majors.filter(Boolean).join(',');
       const cv: string = `static/private/CV/${generateRandomString()}_${getYYMMDD()}/${cvFile.name}.pdf`;
+
       const cleanedPositions = positions.map((p) => p.trim()).filter(Boolean);
+      const cleanedLinks = links
+        .filter((l) => l.description.trim() || l.link.trim())
+        .map((l) => ({
+          description: l.description.trim(),
+          link: l.link.trim(),
+        }));
 
       // file
       await apiClient.put('/api/applicant/me', {
@@ -213,10 +338,10 @@ const CreateProfile = () => {
         department,
         positions: cleanedPositions,
         cvKey: cv,
-        // slogan,
-        // explanation
-        // stacks
-        // links
+        stacks,
+        slogan: slogan.trim() || null,
+        explanation: explanation.trim() || null,
+        links: cleanedLinks,
       });
       setCanSave(true);
       navigate('/mypage');
@@ -235,18 +360,18 @@ const CreateProfile = () => {
   };
 
   return (
-    <div id="main">
+    <div id={styles.main}>
       <h2 className={styles.title}>
         {profile ? '프로필 수정' : '프로필 생성'}
       </h2>
       <h3 className={styles.title}>필수 작성 항목</h3>
       <span className={styles.smallText}>아래 항목은 필수로 작성해주세요.</span>
 
-      <div id="classNumber">
+      <div id={styles.classNumber}>
         <span className={styles.title}>
           학번 <span className={styles.redText}>*</span>
         </span>
-        <div className="row">
+        <div className={styles.row}>
           <input
             type="text"
             value={classNumber}
@@ -262,13 +387,13 @@ const CreateProfile = () => {
         )}
       </div>
 
-      <div id="major">
+      <div id={styles.major}>
         <span className={styles.title}>
           학과
           <span className={styles.redText}>*</span>
         </span>
         {majors.map((major, idx) => (
-          <div className="row" key={idx}>
+          <div className={styles.row} key={idx}>
             <input
               type="text"
               placeholder={
@@ -307,7 +432,7 @@ const CreateProfile = () => {
         )}
       </div>
 
-      <div id="cv">
+      <div id={styles.cv}>
         <span className={styles.title}>
           이력서
           <span className={styles.redText}>*</span>
@@ -350,10 +475,10 @@ const CreateProfile = () => {
         아래 항목은 필수로 작성하지 않아도 괜찮지만, 작성해 주시면 채용 담당자가
         지원자의 강점을 이해하는 데 더욱 도움이 되어요.
       </span>
-      <div id="positions">
+      <div id={styles.positions}>
         <span className={styles.title}>희망 직무</span>
         {positions.map((pos, idx) => (
-          <div className="row" key={idx}>
+          <div className={styles.row} key={idx}>
             <input
               type="text"
               value={pos}
@@ -386,7 +511,135 @@ const CreateProfile = () => {
           </p>
         )}
       </div>
-      <div className="col" id="buttons">
+
+      <div id={styles.stacks}>
+        <span className={styles.title}>기술 스택</span>
+
+        <div className={styles.stackChips}>
+          {stacks.map((tag) => (
+            <span key={tag} className={styles.stackChip}>
+              {tag}
+              <button
+                type="button"
+                onClick={() => removeStack(tag)}
+                className={styles.tagDelete}
+              >
+                ×
+              </button>
+            </span>
+          ))}
+        </div>
+
+        <input
+          type="text"
+          value={stackInput}
+          placeholder="엔터로 기술 스택 추가 (각 30자 이내)"
+          onChange={(e) => setStackInput(e.target.value)}
+          onKeyUp={onStackKeyDown}
+        />
+
+        {!stacksOk && (
+          <p className={styles.redText}>
+            기존 태그와 중복되지 않는 30자 이하의 기술 스택을 입력해주세요.
+          </p>
+        )}
+      </div>
+
+      <div id={styles.slogan}>
+        <span className={styles.title}>한 줄 소개</span>
+
+        <textarea
+          value={slogan}
+          onChange={(e) => setSlogan(e.target.value)}
+          placeholder="나를 소개하는 한마디 (100자 이내)"
+        />
+
+        <div className={styles.counter}>
+          <span className={!sloganOk ? styles.redText : ''}>
+            {slogan.length}/100
+          </span>
+        </div>
+
+        {!sloganOk && (
+          <p className={styles.redText}>
+            한 줄 소개는 100자 이내로 작성해주세요.
+          </p>
+        )}
+      </div>
+
+      <div id={styles.explanation}>
+        <span className={styles.title}>자기소개</span>
+
+        <textarea
+          value={explanation}
+          onChange={(e) => setExplanation(e.target.value)}
+          placeholder="상세 소개 (5000자 이내)"
+          rows={8}
+        />
+
+        <div className={styles.counter}>
+          <span className={!explanationOk ? styles.redText : ''}>
+            {explanation.length}/5000
+          </span>
+        </div>
+
+        {!explanationOk && (
+          <p className={styles.redText}>
+            상세 소개는 5000자 이내로 작성해주세요.
+          </p>
+        )}
+      </div>
+
+      <div id={styles.links}>
+        <span className={styles.title}>기타 소개 링크</span>
+
+        {links.map((item, idx) => (
+          <div key={idx} className={styles.linkBox}>
+            <input
+              type="text"
+              placeholder="설명 (100자 이내)"
+              value={item.description}
+              onChange={(e) =>
+                handleLinkChange(idx, 'description', e.target.value)
+              }
+            />
+            <input
+              type="text"
+              placeholder="https:// 로 시작하는 링크"
+              value={item.link}
+              onChange={(e) => handleLinkChange(idx, 'link', e.target.value)}
+            />
+
+            {idx > 0 && (
+              <button
+                type="button"
+                onClick={() => deleteLink(idx)}
+                className={styles.createProfileButton}
+              >
+                삭제
+              </button>
+            )}
+          </div>
+        ))}
+
+        <button
+          type="button"
+          onClick={addLink}
+          disabled={links.length >= 5}
+          className={styles.createProfileButton}
+        >
+          추가
+        </button>
+
+        {!linksOk && (
+          <p className={styles.redText}>
+            중복되지 않는 유효한 https 링크와 100자 이내 설명을 입력해주세요.
+            (최대 5개)
+          </p>
+        )}
+      </div>
+
+      <div className={styles.col} id={styles.buttons}>
         <button
           onClick={async () => {
             await saveProfile();

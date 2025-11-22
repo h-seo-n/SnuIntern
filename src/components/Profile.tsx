@@ -12,7 +12,7 @@ const Profile = () => {
         <p>loading ...</p>
       ) : profile ? (
         <div id="myInfo">
-          <div className="col" id="SummaryInfo">
+          <div className={styles.col} id="SummaryInfo">
             <h3 className={styles.title}>{profile.name}</h3>
             <p className={styles.bodyText}>{profile.email}</p>
             <p className={styles.bodyText}>
@@ -21,7 +21,7 @@ const Profile = () => {
             </p>
             <br />
           </div>
-          <div className="col" id="BasicInfo">
+          <div className={styles.col} id="BasicInfo">
             {(profile.positions ||
               profile.stacks ||
               profile.explanation ||
@@ -31,6 +31,13 @@ const Profile = () => {
               <div id="position">
                 <h4 className={styles.title}>희망 직무</h4>
                 <span>{profile.positions.join(', ')}</span>
+              </div>
+            )}
+
+            {profile.slogan && (
+              <div id="slogan">
+                <h4 className={styles.title}>한 줄 소개</h4>
+                <span className={styles.bodyText}>{profile.slogan}</span>
               </div>
             )}
 
