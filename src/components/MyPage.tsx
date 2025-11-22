@@ -1,9 +1,16 @@
 import { useState } from 'react';
-import styles from '../MyPage.module.css';
+import { Link } from 'react-router-dom';
+import { useProfile } from '../contexts/ProfileContext';
+import styles from '../styles/MyPage.module.css';
 import Bookmark from './Bookmark';
+import Profile from './Profile';
 
 const MyPage = () => {
-  const [activeTab, setActiveTab] = useState('bookmarks');
+  const { profile } = useProfile();
+
+  const [activeTab, setActiveTab] = useState<'myinfo' | 'bookmarks'>(
+    'bookmarks'
+  );
 
   return (
     <div className={styles.container}>
@@ -26,9 +33,9 @@ const MyPage = () => {
           </button>
         </div>
         {activeTab === 'myinfo' && (
-          <button type="button" className={styles.createProfileButton}>
-            내 프로필 생성
-          </button>
+          <Link to="/mypage/profile/new" className={styles.createProfileButton}>
+            {profile ? '내 프로필 수정' : '내 프로필 생성'}
+          </Link>
         )}
       </div>
       <div className={styles.content}>
@@ -38,17 +45,7 @@ const MyPage = () => {
         ) : (
           // 'myinfo' 페이지
           // api로 프로필이 있는지 확인해야 함
-          <div className={styles.profilePromptContainer}>
-            <h2 className={styles.promptTitle}>
-              아직 프로필이 등록되지 않았어요!
-            </h2>
-            <p className={styles.promptSubtitle}>
-              기업에 소개할 나의 정보를 작성해서 나를 소개해보세요.
-            </p>
-            <button type="button" className={styles.promptButton}>
-              지금 바로 프로필 작성하기
-            </button>
-          </div>
+          <Profile />
         )}
       </div>
     </div>

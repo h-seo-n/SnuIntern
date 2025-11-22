@@ -1,8 +1,8 @@
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa6';
-import styles from '../InternCard.module.css';
 import { useAuth } from '../contexts/AuthContext';
 import { usePosts } from '../contexts/PostContext';
-import type { Post } from '../types/types';
+import styles from '../styles/InternCard.module.css';
+import type { Post } from '../types';
 
 interface InternCardProps {
   post: Post;

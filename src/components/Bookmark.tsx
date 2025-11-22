@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { FaBookmark } from 'react-icons/fa6';
-import styles from '../Bookmark.module.css';
 import { usePosts } from '../contexts/PostContext';
-import type { Post } from '../types/types';
+import styles from '../styles/Bookmark.module.css';
+import type { Post } from '../types';
 
 const Bookmark = () => {
   const { bookmarkedPosts, getBookmark, isLoading } = usePosts();

@@ -6,7 +6,7 @@ import {
   useState,
 } from 'react';
 import apiClient from '../api';
-import type { LoginData, SignupData } from '../types/types';
+import type { LoginData, SignupData } from '../types';
 
 /* 통합 시 export 주석 해제하기  */
 interface User {

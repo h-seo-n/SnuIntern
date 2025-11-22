@@ -8,38 +8,8 @@ import {
   useState,
 } from 'react';
 import apiClient from '../api';
-import type { Post } from '../types/types';
+import type { ApiPost, Post } from '../types';
 import { useAuth } from './AuthContext';
-
-interface ApiAuthor {
-  id: string;
-  name: string;
-  profileImageKey: string;
-}
-
-interface ApiTag {
-  tag: string;
-}
-
-interface ApiPost {
-  id: string;
-  author: ApiAuthor;
-  companyName: string;
-  profileImageKey: string;
-  location: string;
-  employmentEndDate: string; // ISO date string
-  positionTitle: string;
-  domain: string;
-  slogan: string;
-  detailSummary: string;
-  positionType: string;
-  headCount: number;
-  isBookmarked: boolean;
-  createdAt: string; // This is an ISO date string
-  updatedAt: string; // This is an ISO date string
-  tags: ApiTag[];
-  coffeeChatCount: number;
-}
 
 interface PostContextType {
   posts: Post[] | null;

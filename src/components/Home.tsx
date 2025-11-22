@@ -1,8 +1,8 @@
 import { type ChangeEvent, useEffect, useState } from 'react';
 import { FaAngleDown, FaAngleUp, FaArrowRotateRight } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
-import styles from '../Home.module.css';
 import { encodeQueryParams, usePosts } from '../contexts/PostContext';
+import styles from '../styles/Home.module.css';
 import InternCard from './InternCard';
 
 type OpenDropdownType = 'rec' | 'dm' | 'new' | null;
